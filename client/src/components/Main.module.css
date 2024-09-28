@@ -1,0 +1,20 @@
+.mainContainer {
+  margin-top: 7rem;
+  gap: 2rem;
+  width: 100vw;
+  max-height: 90vh;
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.loader {
+  position: fixed;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
