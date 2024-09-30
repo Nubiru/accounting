@@ -1,7 +1,7 @@
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import classes from './FileUpload.module.css'
-import { getList } from '../helpers/files/getList.js'
+import { getList } from '../../helpers/files/getList.js'
 
 const FileUpload = ({
   setLoading,
@@ -31,11 +31,10 @@ const FileUpload = ({
       )
 
       console.log(response)
+      toast.success('File uploaded successfuly')
     } catch (error) {
-      console.error('Error uploading file:', error)
       toast.error(error)
     }
-    toast.success('File uploaded successfuly')
     setLoading(false)
     setTimeout(() => {
       getList(
@@ -76,5 +75,3 @@ const FileUpload = ({
 }
 
 export default FileUpload
-
-// {loading & }

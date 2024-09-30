@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Main.module.css'
-import FolderTree from './FolderTree'
-import FileUpload from '../features/FileUpload'
-import CreateUser from '../features/CreateUser'
-import Posts from '../features/Posts'
 import Nav from './Nav'
 import Loader from './Loader'
-//Main app display window. Parent to upload & navigation features
-//Controls all file related states and passes to both features the ones they need
+import Customers from '../features/user/Customers'
+import ViewPosts from '../features/post/ViewPosts'
+import ViewNews from '../features/new/ViewNews'
+import CreateNew from '../features/new/CreateNew'
+import FolderTree from '../features/file/FolderTree'
+import FileUpload from '../features/file/FileUpload'
+import CreateUser from '../features/user/CreateUser'
+import CreatePost from '../features/post/CreatePost'
 
 const Main = ({ user, role }) => {
+  //file nav and upload states
+  const [files, setFiles] = useState([])
+  const [folders, setFolders] = useState([])
+  const [file, setFile] = useState('')
+  const [loading, setLoading] = useState(false)
+
   const [uploadPath, setUploadPath] = useState({
     customerFolder: '',
     subFolder: ''
@@ -19,17 +27,17 @@ const Main = ({ user, role }) => {
     subFolder: ''
   })
 
-  const [shUp, setShUp] = useState(false)
-  const [shNv, setShNv] = useState(false)
+  //admin controls
+  const [showCustomers, setShowCustomers] = useState(false)
   const [shCrtUsr, setShCrtUsr] = useState(false)
   const [shCrtPst, setShCrtPst] = useState(false)
   const [shCrtNws, setShCrtNws] = useState(false)
-  const [shDltUsr, setShDltUsr] = useState(false)
 
-  const [files, setFiles] = useState([])
-  const [folders, setFolders] = useState([])
-  const [file, setFile] = useState('')
-  const [loading, setLoading] = useState(false)
+  //user displays
+  const [shUp, setShUp] = useState(false)
+  const [shNv, setShNv] = useState(false)
+  const [shPst, setShPst] = useState(false)
+  const [shNws, setShNws] = useState(false)
 
   useEffect(() => {
     setUploadPath({ customerFolder: user, subFolder: 'Month' })
@@ -51,14 +59,18 @@ const Main = ({ user, role }) => {
         setShUp={setShUp}
         shNv={shNv}
         setShNv={setShNv}
+        shPst={shPst}
+        setShPst={setShPst}
+        shNws={shNws}
+        setShNws={setShNws}
+        showCustomers={showCustomers}
+        setShowCustomers={setShowCustomers}
         shCrtUsr={shCrtUsr}
         setShCrtUsr={setShCrtUsr}
         shCrPst={shCrtPst}
         setShCrtPst={setShCrtPst}
         shCrNws={shCrtNws}
         setShCrtNws={setShCrtNws}
-        shDltUsr={shDltUsr}
-        setShDltUsr={setShDltUsr}
       />
 
       <main className={classes.mainContainer}>
@@ -88,13 +100,23 @@ const Main = ({ user, role }) => {
             />
           )}
 
-          {user === 'Admin' && shCrtUsr && (
-            <CreateUser setLoading={setLoading} />
+          {shPst && <ViewPosts setLoading={setLoading} />}
+          {shNws && <ViewNews setLoading={setLoading} />}
+
+          {role === 'Admin' && showCustomers && (
+            <Customers role={role} setLoading={setLoading} />
           )}
 
-          {/* //TODO: SHOULD BE CreatePost */}
-          {user === 'Admin' && shCrtPst && (
-            <Posts role={role} setLoading={setLoading} />
+          {role === 'Admin' && shCrtUsr && (
+            <CreateUser role={role} setLoading={setLoading} />
+          )}
+
+          {role === 'Admin' && shCrtPst && (
+            <CreatePost role={role} setLoading={setLoading} />
+          )}
+
+          {role === 'Admin' && shCrtNws && (
+            <CreateNew role={role} setLoading={setLoading} />
           )}
         </div>
         <div className={classes.loader}>{loading && <Loader />}</div>

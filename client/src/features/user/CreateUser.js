@@ -1,9 +1,10 @@
 import React from 'react'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import classes from './CreateUser.module.css'
-import { createUser } from '../helpers/auth/createUser'
+import { createUser } from '../../helpers/auth/createUser'
 
-const CreateUser = ({ setLoading }) => {
+const CreateUser = ({ role, setLoading }) => {
   const [newUser, setNewUser] = useState('')
   const [newPwd, setNewPwd] = useState('')
   const [newRole, setNewRole] = useState('Customer')
@@ -20,9 +21,11 @@ const CreateUser = ({ setLoading }) => {
         if (result.status === 409) {
           // User already exist
           setMessage(result.response.data.message)
+          toast.error('User already exists')
         } else if (result.status === 201) {
           // User created
           setMessage(result.data.message)
+          toast.success('User created')
           setNewPwd('')
           setNewUser('')
           setNewRole('Customer')
@@ -33,7 +36,7 @@ const CreateUser = ({ setLoading }) => {
           setMessage('Error')
         }
       } catch (error) {
-        console.log(error)
+        toast.error(error)
       }
       setLoading(false)
     }
@@ -43,6 +46,7 @@ const CreateUser = ({ setLoading }) => {
       <form className={classes.formContainer} onSubmit={handleCreate}>
         <input
           type="text"
+          required
           className={classes.input}
           placeholder="Username"
           value={newUser}
@@ -50,6 +54,7 @@ const CreateUser = ({ setLoading }) => {
         />
         <input
           type="password"
+          required
           className={classes.input}
           placeholder="Password"
           value={newPwd}
@@ -64,7 +69,11 @@ const CreateUser = ({ setLoading }) => {
           <option value="Admin ">Admin</option>
           <option value="Customer">Customer</option>
         </select>
-        <button type="submit" className={classes.newButton}>
+        <button
+          disabled={role === 'Admin'}
+          type="submit"
+          className={classes.newButton}
+        >
           Create
         </button>
         <label>{message}</label>

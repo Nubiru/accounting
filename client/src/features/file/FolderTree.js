@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './FolderTree.module.css'
-import FileList from '../features/FileList'
-import BackArrow from './BackArrow'
+import FileList from './FileList'
+import BackArrow from '../../components/BackArrow'
 
 //TODO: This component is currently in the way between Main and the feature FileList, currently acting as container of all information, leaving only display to FileList
 
