@@ -4,12 +4,12 @@ import express from 'express'
 import cors from 'cors'
 import uploadRoute from './routes/files/uploadRoute.js'
 import getListRoute from './routes/files/getListRoute.js'
-import removeRoute from './routes/files/removeRoute.js'
 import downloadRoute from './routes/files/downloadRoute.js'
+import removeRoute from './routes/files/removeRoute.js'
 import registerRoute from './routes/auth/registerRoute.js'
 import loginRoute from './routes/auth/loginRoute.js'
 import logoutRoute from './routes/auth/logoutRoute.js'
-import removeRoute from './routes/auth/removeRoute.js'
+
 import refreshRoute from './routes/refreshRoute.js'
 import usersRoute from './routes/usersRoute.js'
 import createPost from './routes/posts/createPost.js'
@@ -44,7 +44,6 @@ app.get('/', (req, res) => {
 app.use('/users/register', registerRoute)
 app.use('/users/login', loginRoute)
 app.use('/users/logout', logoutRoute)
-app.use('/users/remove', removeRoute)
 
 // app.use(jwtVerification);
 app.use('/files/upload', uploadRoute)
