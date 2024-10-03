@@ -8,8 +8,8 @@ import { roleVerification } from "../middleware/roleVerification.js";
 
 const router = express.Router();
 
-router.delete("/:id", roleVerification, removeUser);
-router.get("/", roleVerification, getAllUsers);
-router.get("/:id", getUser);
+router.delete("/", removeUser);
+router.get("/", getAllUsers);
+//router.get("/:id", getUser);
 
 export default router;

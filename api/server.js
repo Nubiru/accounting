@@ -1,15 +1,14 @@
 // require("dotenv").config();
-import 'dotenv/config'
+import {} from 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import uploadRoute from './routes/files/uploadRoute.js'
 import getListRoute from './routes/files/getListRoute.js'
-import downloadRoute from './routes/files/downloadRoute.js'
 import removeRoute from './routes/files/removeRoute.js'
+import downloadRoute from './routes/files/downloadRoute.js'
 import registerRoute from './routes/auth/registerRoute.js'
 import loginRoute from './routes/auth/loginRoute.js'
 import logoutRoute from './routes/auth/logoutRoute.js'
-
 import refreshRoute from './routes/refreshRoute.js'
 import usersRoute from './routes/usersRoute.js'
 import createPost from './routes/posts/createPost.js'
@@ -63,12 +62,9 @@ app.use('/news/get', getNews)
 
 async function start() {
   console.log('connecting...')
-  console.log('mongo', process.env.mongoUri)
 
   try {
-    await connectDB(
-      'mongodb+srv://osemberggabi:vOXc0ZBeSZjKY0dR@luzerin.erja9z7.mongodb.net/?retryWrites=true&w=majority&appName=Luzerin'
-    )
+    await connectDB(process.env.MONGO_URI)
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
   } catch (error) {
     console.log(error)

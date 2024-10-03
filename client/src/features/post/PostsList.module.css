@@ -1,7 +1,9 @@
-.container {
-  display: flex;
+.posts {
+  list-style: none;
+  display: block;
   align-items: center;
   justify-content: center;
+  text-align: center;
 }
 
 .newButton {
@@ -26,4 +28,12 @@
     box-shadow: inset 2px 2px 5px #bcbcbc, inset -2px -2px 5px #ffffff,
       2px 2px 5px #bcbcbc, -2px -2px 5px #ffffff;
   }
+}
+
+.post {
+  display: block;
+  text-align: center;
+  margin: 1rem;
+  padding: 1rem;
+  /* max-width: 50%; */
 }

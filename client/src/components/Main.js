@@ -3,7 +3,7 @@ import classes from './Main.module.css'
 import Nav from './Nav'
 import Loader from './Loader'
 import Customers from '../features/user/Customers'
-import ViewPosts from '../features/post/ViewPosts'
+import PostsList from '../features/post/PostsList'
 import ViewNews from '../features/new/ViewNews'
 import CreateNew from '../features/new/CreateNew'
 import FolderTree from '../features/file/FolderTree'
@@ -11,7 +11,11 @@ import FileUpload from '../features/file/FileUpload'
 import CreateUser from '../features/user/CreateUser'
 import CreatePost from '../features/post/CreatePost'
 
-const Main = ({ user, role }) => {
+const Main = ({ user, role, setUser, setRole }) => {
+  //Active display
+  const [tab, setTab] = useState('Default')
+  const [modalVisible, setModalVisible] = useState(false)
+
   //file nav and upload states
   const [files, setFiles] = useState([])
   const [folders, setFolders] = useState([])
@@ -48,13 +52,34 @@ const Main = ({ user, role }) => {
     setShUp(false)
     setShNv(false)
   }, [user])
+  useEffect(() => {
+    if (role === '') {
+      setShCrtUsr(false)
+      setShCrtPst(false)
+      setShCrtNws(false)
+      setShowCustomers(false)
+    }
+  }, [role])
 
-  console.log(role)
+  const hideModalHandler = () => {
+    setModalVisible(false)
+  }
+
+  const showModalHandler = () => {
+    setModalVisible(true)
+  }
+
   return (
     <>
       <Nav
+        onCreatePost={showModalHandler}
+        setLoading={setLoading}
+        tab={tab}
+        setTab={setTab}
         user={user}
+        setUser={setUser}
         role={role}
+        setRole={setRole}
         shUp={shUp}
         setShUp={setShUp}
         shNv={shNv}
@@ -69,12 +94,39 @@ const Main = ({ user, role }) => {
         setShCrtUsr={setShCrtUsr}
         shCrPst={shCrtPst}
         setShCrtPst={setShCrtPst}
-        shCrNws={shCrtNws}
+        shCrtNws={shCrtNws}
         setShCrtNws={setShCrtNws}
       />
 
       <main className={classes.mainContainer}>
         <div className={classes.display}>
+          {role.includes('Admin') && showCustomers && (
+            <div className={classes.usersContainer}>
+              <Customers
+                role={role}
+                setLoading={setLoading}
+                setShCrtPst={setShCrtPst}
+                setShCrtNws={setShCrtNws}
+                setShCrtUsr={setShCrtUsr}
+                setShUp={setShUp}
+                setShNv={setShNv}
+              />
+            </div>
+          )}
+
+          {role.includes('Admin') && shCrtUsr && (
+            <CreateUser
+              role={role}
+              setLoading={setLoading}
+              setShCrtUsr={setShCrtUsr}
+              setShowCustomers={setShowCustomers}
+              setShCrtPst={setShCrtPst}
+              setShCrtNws={setShCrtNws}
+              setShUp={setShUp}
+              setShNv={setShNv}
+            />
+          )}
+
           {shUp && (
             <FileUpload
               setLoading={setLoading}
@@ -84,6 +136,10 @@ const Main = ({ user, role }) => {
               setFiles={setFiles}
               setFolders={setFolders}
               folderPath={folderPath}
+              setShCrtPst={setShCrtPst}
+              setShCrtNws={setShCrtNws}
+              setShCrtUsr={setShCrtUsr}
+              setShowCustomers={setShowCustomers}
             />
           )}
 
@@ -97,26 +153,42 @@ const Main = ({ user, role }) => {
               setFolders={setFolders}
               folderPath={folderPath}
               setFolderPath={setFolderPath}
+              setShCrtPst={setShCrtPst}
+              setShCrtNws={setShCrtNws}
+              setShCrtUsr={setShCrtUsr}
+              setShowCustomers={setShowCustomers}
             />
           )}
+          {tab === 'Default' && (
+            <div className={classes.ContentContainer}>
+              <div className={classes.posts}>
+                <PostsList
+                  onStopPosting={hideModalHandler}
+                  isPosting={modalVisible}
+                  setLoading={setLoading}
+                  role={role}
+                />
+              </div>
 
-          {shPst && <ViewPosts setLoading={setLoading} />}
-          {shNws && <ViewNews setLoading={setLoading} />}
-
-          {role === 'Admin' && showCustomers && (
-            <Customers role={role} setLoading={setLoading} />
-          )}
-
-          {role === 'Admin' && shCrtUsr && (
-            <CreateUser role={role} setLoading={setLoading} />
-          )}
-
-          {role === 'Admin' && shCrtPst && (
-            <CreatePost role={role} setLoading={setLoading} />
-          )}
-
-          {role === 'Admin' && shCrtNws && (
-            <CreateNew role={role} setLoading={setLoading} />
+              <div className={classes.news}>
+                {role.includes('Admin') && shCrtNws && (
+                  <CreateNew
+                    role={role}
+                    setLoading={setLoading}
+                    setShCrtNws={setShCrtNws}
+                    setShUp={setShUp}
+                    setShNv={setShNv}
+                    setShCrtUsr={setShCrtUsr}
+                    setShowCustomers={setShowCustomers}
+                  />
+                )}
+                <ViewNews
+                  setLoading={setLoading}
+                  loading={loading}
+                  role={role}
+                />
+              </div>
+            </div>
           )}
         </div>
         <div className={classes.loader}>{loading && <Loader />}</div>

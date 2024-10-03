@@ -1,30 +1,46 @@
-import React from 'react'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
-import classes from './CreatePost.module.css'
-import { createPost } from '../../helpers/posts/createPost.js'
+import React from "react";
+import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
+import classes from "./CreatePost.module.css";
+import { createPost } from "../../helpers/posts/createPost.js";
 
-const CreatePost = ({ role, setLoading }) => {
-  const [newTitle, setNewTitle] = useState('')
-  const [newContent, setNewContent] = useState('')
+const CreatePost = ({
+  role,
+  setLoading,
+  setShCrtPst,
+  setShCrtUsr,
+  setShowCustomers,
+  setShUp,
+  setShNv,
+}) => {
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+  useEffect(() => {
+    setShCrtUsr(false);
+    setShUp(false);
+    setShNv(false);
+
+    setShowCustomers(false);
+  }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
-      const result = await createPost(newTitle, newContent)
-      toast.success('Post Submitted')
-      console.log(result)
+      const result = await createPost(newTitle, newContent);
+      toast.success("Post Submitted");
+      console.log(result);
     } catch (error) {
-      toast.error(error)
+      toast.error(error);
     }
-    setNewTitle('')
-    setNewContent('')
-    setLoading(false)
-  }
+    setNewTitle("");
+    setNewContent("");
+    setLoading(false);
+  };
 
   return (
     <div className={classes.container}>
+      <button onClick={() => setShCrtPst(false)}>Close</button>
       <form className={classes.formContainer} onSubmit={handleSubmit}>
         <input
           type="text"
@@ -45,14 +61,14 @@ const CreatePost = ({ role, setLoading }) => {
         />
         <button
           className={classes.newButton}
-          disabled={role === 'Admin'}
+          // disabled={role === 'Admin'}
           type="submit"
         >
           Post
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default CreatePost
+export default CreatePost;
