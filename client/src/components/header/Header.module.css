@@ -51,6 +51,8 @@
   padding: 4px 7px;
   border-radius: 6px;
   cursor: pointer;
+  text-decoration: none;
+
   &:active {
     transform: scale(0.99);
   }

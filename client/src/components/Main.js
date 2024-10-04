@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Main.module.css'
-import Nav from './Nav'
+import Nav from './header/Header'
 import Loader from './Loader'
 import Customers from '../features/user/Customers'
 import PostsList from '../features/post/PostsList'

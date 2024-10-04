@@ -1,8 +1,9 @@
 import React from 'react'
-import classes from './Nav.module.css'
+import { Link } from 'react-router-dom'
+import classes from './Header.module.css'
 import { FaHome } from 'react-icons/fa'
 
-import Authentication from '../features/user/Authentication.js'
+import Authentication from '../../features/user/Authentication.js'
 
 import {
   FaAddressBook,
@@ -17,8 +18,7 @@ import {
 
 //controls of show / hide
 
-const Nav = ({
-  onCreatePost,
+const Header = ({
   setLoading,
   tab,
   setTab,
@@ -30,13 +30,9 @@ const Nav = ({
   setShUp,
   shNv,
   setShNv,
-  shPst,
   setShPst,
-  shNws,
   setShNws,
-  showCustomers,
   setShowCustomers,
-  shCrtUsr,
   setShCrtUsr,
   shCrtPst,
   setShCrtPst,
@@ -223,7 +219,7 @@ const Nav = ({
               <p className={classes.label}>Create User</p>
             </li>
 
-            <li className={classes.element} onClick={onCreatePost}>
+            <li className={classes.element}>
               <FaEnvelope />
               <p className={classes.label}>Create Post</p>
             </li>
@@ -286,4 +282,4 @@ const Nav = ({
   )
 }
 
-export default Nav
+export default Header
