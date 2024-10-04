@@ -5,9 +5,7 @@ import { FaHome } from 'react-icons/fa'
 
 import { FaAddressBook, FaCircleInfo, FaEnvelope } from 'react-icons/fa6'
 
-const Header = ({ tab }) => {
-  console.log(tab)
-
+const Header = () => {
   return (
     <>
       {/* purple bar 100vw */}

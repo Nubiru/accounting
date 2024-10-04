@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 //import './index.css'
 import RootLayout from './routes/RootLayout'
-import App from './App'
 import Dashboard from './routes/Dashboard'
-import Posts from './routes/Posts'
-import NewPost from './routes/NewPost'
+import Posts, { loader as postsLoader } from './routes/Posts'
+import NewPost, { action as newPostAction } from './routes/NewPost'
+import PostDetails, {
+  loader as postLoader,
+  action as editPostAction
+} from './routes/PostDetails'
 
-import Customers from './features/user/Customers'
-import CreateUser from './features/user/CreateUser'
-import Authentication from './features/user/Authentication'
-import PostsList from './features/post/PostsList'
+// import App from './App'
+// import Customers from './features/user/Customers'
+// import CreateUser from './features/user/CreateUser'
+// import Authentication from './features/user/Authentication'
 
 // Here is where we can list all routes
 const router = createBrowserRouter([
@@ -26,22 +29,34 @@ const router = createBrowserRouter([
           {
             path: '/',
             element: <Posts />,
-            // loader: () => {},
-            children: [{ path: '/create-post', element: <NewPost /> }]
+            loader: postsLoader,
+            children: [
+              {
+                path: '/create-post',
+                element: <NewPost />,
+                action: newPostAction
+              },
+              {
+                path: '/:id',
+                element: <PostDetails />,
+                action: editPostAction,
+                loader: postLoader
+              }
+            ]
           }
         ]
       }
     ]
-  },
-  {
-    path: '/',
-    element: <App />,
-    children: [
-      { path: '/customers', element: <Customers /> },
-      { path: '/create-user', element: <CreateUser /> },
-      { path: '/auth', element: <Authentication /> }
-    ]
   }
+  // {
+  //   path: '/',
+  //   element: <App />,
+  //   children: [
+  //     { path: '/customers', element: <Customers /> },
+  //     { path: '/create-user', element: <CreateUser /> },
+  //     { path: '/auth', element: <Authentication /> }
+  //   ]
+  // }
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
