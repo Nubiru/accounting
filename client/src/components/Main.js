@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import classes from './Main.module.css'
-import Nav from './header/Header'
 import Loader from './Loader'
 import Customers from '../features/user/Customers'
 import PostsList from '../features/post/PostsList'
@@ -9,7 +8,6 @@ import CreateNew from '../features/new/CreateNew'
 import FolderTree from '../features/file/FolderTree'
 import FileUpload from '../features/file/FileUpload'
 import CreateUser from '../features/user/CreateUser'
-import CreatePost from '../features/post/CreatePost'
 
 const Main = ({ user, role, setUser, setRole }) => {
   //Active display
@@ -71,33 +69,6 @@ const Main = ({ user, role, setUser, setRole }) => {
 
   return (
     <>
-      <Nav
-        onCreatePost={showModalHandler}
-        setLoading={setLoading}
-        tab={tab}
-        setTab={setTab}
-        user={user}
-        setUser={setUser}
-        role={role}
-        setRole={setRole}
-        shUp={shUp}
-        setShUp={setShUp}
-        shNv={shNv}
-        setShNv={setShNv}
-        shPst={shPst}
-        setShPst={setShPst}
-        shNws={shNws}
-        setShNws={setShNws}
-        showCustomers={showCustomers}
-        setShowCustomers={setShowCustomers}
-        shCrtUsr={shCrtUsr}
-        setShCrtUsr={setShCrtUsr}
-        shCrPst={shCrtPst}
-        setShCrtPst={setShCrtPst}
-        shCrtNws={shCrtNws}
-        setShCrtNws={setShCrtNws}
-      />
-
       <main className={classes.mainContainer}>
         <div className={classes.display}>
           {role.includes('Admin') && showCustomers && (

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import toast from 'react-hot-toast'
+//import toast from 'react-hot-toast'
 import classes from './PostsList.module.css'
 import Loader from '../../components/Loader.js'
 
@@ -11,9 +11,9 @@ const PostsList = () => {
   const [posts, setPosts] = useState([])
   const [isFetching, setIsFetching] = useState(false)
 
-  const addPostHandler = (postData) => {
-    setPosts((existingPosts) => [postData, ...existingPosts])
-  }
+  // const addPostHandler = (postData) => {
+  //   setPosts((existingPosts) => [postData, ...existingPosts])
+  // }
 
   useEffect(() => {
     const fetch = async () => {

@@ -12,7 +12,6 @@ import Customers from './features/user/Customers'
 import CreateUser from './features/user/CreateUser'
 import Authentication from './features/user/Authentication'
 import PostsList from './features/post/PostsList'
-import CreatePost from './features/post/CreatePost'
 
 // Here is where we can list all routes
 const router = createBrowserRouter([
@@ -41,14 +40,6 @@ const router = createBrowserRouter([
       { path: '/customers', element: <Customers /> },
       { path: '/create-user', element: <CreateUser /> },
       { path: '/auth', element: <Authentication /> }
-    ]
-  },
-  {
-    path: '/',
-    element: <PostsList />,
-    children: [
-      { path: '/create-post', element: <CreatePost /> }
-      // { path: '/edit-post', element: <EditPost /> }
     ]
   }
 ])
