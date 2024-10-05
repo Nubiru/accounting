@@ -1,17 +1,39 @@
 import axios from 'axios'
-import { useLoaderData, Link, Form, redirect } from 'react-router-dom'
+import {
+  useLoaderData,
+  Link,
+  Form,
+  redirect,
+  useNavigate
+} from 'react-router-dom'
 import toast from 'react-hot-toast'
 
 import Modal from '../components/Modal'
 import classes from './PostDetails.module.css'
-import { getPost } from '../helpers/posts/getPosts'
+import { getPost, getPosts } from '../helpers/posts/getPosts'
 import { useState } from 'react'
+import { deletePost } from '../helpers/posts/deletePost'
 
 function PostDetails() {
-  const post = useLoaderData()
   const [editing, setEditing] = useState(false)
+  const post = useLoaderData()
+  const navigate = useNavigate()
 
   const { title, content } = post
+  const id = post._id
+
+  const deleteHandler = async () => {
+    try {
+      const result = await deletePost(id)
+
+      if (result.status === 201) {
+        toast.success('Post deleted')
+      }
+    } catch (error) {
+      toast.error(error)
+    }
+    navigate('/')
+  }
 
   console.dir(post)
   if (!post) {
@@ -70,7 +92,6 @@ function PostDetails() {
                 Cancel
               </button>
               <button>Update Post</button>
-              {/* <Link to={id}>Update Post</Link> */}
             </p>
           </Form>
         </Modal>
@@ -84,7 +105,9 @@ function PostDetails() {
             <p className={classes.content}>{post.content}</p>
           </main>
           <div className={classes.actions}>
-            <button>Delete Post</button>
+            <Link to="/" className={classes.btn}>
+              <button onClick={deleteHandler}>Delete Post</button>
+            </Link>
             <button
               onClick={() => {
                 setEditing(true)
@@ -124,8 +147,8 @@ export const action = async ({ request, params }) => {
     console.log(5, 'e')
     //I GOT UP TO HERE, following this line there is internal server error 500, probably the patch url or backend code
     await axios.patch(`http://localhost:3500/posts/edit/${id}`, {
-      title: postData.title,
-      content: postData.content
+      newTitle: postData.title,
+      newContent: postData.content
     })
     console.log(6, 'e')
   } catch (error) {

@@ -1,8 +1,6 @@
 import axios from 'axios'
 
 export const getPosts = async () => {
-  console.log(3, 'getposts')
-
   try {
     const response = await axios.get('http://localhost:3500/posts/get')
     const result = response.data.posts
