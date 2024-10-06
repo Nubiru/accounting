@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
-import classes from './Post.module.css'
+import { Link } from "react-router-dom";
+import classes from "./Post.module.css";
 
 const Post = ({ id, title, content }) => {
   return (
@@ -9,7 +9,7 @@ const Post = ({ id, title, content }) => {
         <p className={classes.content}>{content}</p>
       </Link>
     </li>
-  )
-}
+  );
+};
 
-export default Post
+export default Post;

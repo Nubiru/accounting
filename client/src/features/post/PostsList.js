@@ -22,7 +22,7 @@ const PostsList = () => {
       )}
 
       {posts.length === 0 && (
-        <p className={classes.post}>There are no posts yet</p>
+        <p className={classes.text}>There are no posts yet</p>
       )}
     </>
   )

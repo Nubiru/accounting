@@ -1,22 +1,41 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-//import './index.css'
+import './index.css'
+
 import RootLayout from './routes/RootLayout'
 import Dashboard from './routes/Dashboard'
-import Posts, { loader as postsLoader } from './routes/Posts'
-import NewPost, { action as newPostAction } from './routes/NewPost'
+
+import Posts, { loader as postsLoader } from './routes/post/Posts'
+import CreatePost, {
+  action as createPostAction
+} from './routes/post/CreatePost'
 import PostDetails, {
-  loader as postLoader,
-  action as editPostAction
-} from './routes/PostDetails'
+  action as editPostAction,
+  loader as postLoader
+} from './routes/post/PostDetails'
 
-// import App from './App'
-// import Customers from './features/user/Customers'
-// import CreateUser from './features/user/CreateUser'
-// import Authentication from './features/user/Authentication'
+import News, { loader as newsLoader } from './routes/new/News'
+import CreateNew, { action as createNewAction } from './routes/new/CreateNew'
+import NewDetails, {
+  action as editNewAction,
+  loader as newLoader
+} from './routes/new/NewDetails'
 
-// Here is where we can list all routes
+import Customers, { loader as customersLoader } from './routes/user/Customers'
+import CreateUser, {
+  action as createUserAction
+} from './routes/user/CreateUser'
+import CustomerDetails, {
+  action as editUserAction,
+  loader as userLoader
+} from './routes/user/CustomerDetails'
+
+import Files, { loader as userFilesLoader } from './routes/file/Files'
+import FileUpload, {
+  action as fileUploadAction
+} from './routes/file/FileUpload'
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -33,8 +52,8 @@ const router = createBrowserRouter([
             children: [
               {
                 path: '/create-post',
-                element: <NewPost />,
-                action: newPostAction
+                element: <CreatePost />,
+                action: createPostAction
               },
               {
                 path: '/:id',
@@ -43,20 +62,59 @@ const router = createBrowserRouter([
                 loader: postLoader
               }
             ]
+          },
+          {
+            path: '/',
+            element: <News />,
+            loader: newsLoader,
+            children: [
+              {
+                path: '/create-new',
+                element: <CreateNew />,
+                action: createNewAction
+              },
+              {
+                path: '/:id',
+                element: <NewDetails />,
+                action: editNewAction,
+                loader: newLoader
+              }
+            ]
+          },
+          {
+            path: '/customers',
+            element: <Customers />,
+            loader: customersLoader,
+            children: [
+              {
+                path: '/customers/create-user',
+                element: <CreateUser />,
+                action: createUserAction
+              },
+              {
+                path: '/customers/:id',
+                element: <CustomerDetails />,
+                action: editUserAction,
+                loader: userLoader
+              }
+            ]
+          },
+          {
+            path: '/files',
+            element: <Files />,
+            loader: userFilesLoader,
+            children: [
+              {
+                path: '/files/upload',
+                element: <FileUpload />,
+                action: fileUploadAction
+              }
+            ]
           }
         ]
       }
     ]
   }
-  // {
-  //   path: '/',
-  //   element: <App />,
-  //   children: [
-  //     { path: '/customers', element: <Customers /> },
-  //     { path: '/create-user', element: <CreateUser /> },
-  //     { path: '/auth', element: <Authentication /> }
-  //   ]
-  // }
 ])
 
 const root = ReactDOM.createRoot(document.getElementById('root'))

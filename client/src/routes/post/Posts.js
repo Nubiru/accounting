@@ -1,0 +1,31 @@
+import { Link, Outlet } from 'react-router-dom'
+import PostsList from '../../features/post/PostsList'
+import classes from './Posts.module.css'
+import { getPosts } from '../../helpers/posts/getPosts'
+import { FaEnvelope } from 'react-icons/fa6'
+
+const Posts = () => {
+  console.log(1, 'hi')
+
+  return (
+    <>
+      <Outlet />
+      <main className={classes.postsContainer}>
+        <Link to="create-post" className={classes.create}>
+          <FaEnvelope />
+          <p className={classes.label}>Create Post</p>
+        </Link>
+        <PostsList />
+      </main>
+    </>
+  )
+}
+
+export default Posts
+
+export const loader = async () => {
+  const response = await getPosts()
+  return response
+}
+
+//instead of having getPosts() here, we can have the get request directly here, but this is not required, since loader works every time

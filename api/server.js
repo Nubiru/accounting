@@ -1,5 +1,5 @@
 // require("dotenv").config();
-import {} from 'dotenv/config'
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import uploadRoute from './routes/files/uploadRoute.js'
@@ -50,6 +50,7 @@ app.use('/files/getlist', getListRoute)
 app.use('/files/remove', removeRoute)
 app.use('/files/download', downloadRoute)
 app.use('/users/refresh', refreshRoute)
+
 app.use('/customers', usersRoute)
 app.use('/posts/create', createPost)
 app.use('/posts/delete', deletePost)

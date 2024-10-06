@@ -4,15 +4,16 @@ import toast from 'react-hot-toast'
 import classes from './Authentication.module.css'
 import { handleLogin } from '../../helpers/auth/handleLogin.js'
 import { handleLogout } from '../../helpers/auth/handleLogout.js'
-
-const Authentication = ({ setLoading, user, setUser, role, setRole }) => {
+import { useNavigate } from 'react-router-dom'
+const Authentication = ({ user, setUser, role, setRole }) => {
   const [pwd, setPwd] = useState('')
   const [login, setLogin] = useState('')
   const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
+
     try {
       const result = await handleLogin(login, pwd)
       console.log(result)
@@ -22,44 +23,41 @@ const Authentication = ({ setLoading, user, setUser, role, setRole }) => {
         setLogin('')
         setPwd('')
         console.log(pwd, login)
-        setLoading(false)
+
         toast.success(`Welcome ${result.username}`)
       } else if (result.status === 401) {
         console.log('User not found')
         setRole('')
         setMessage('Wrong user or password')
-        setLoading(false)
+
         toast.error(message)
       } else if (result.status === 400) {
         console.log('Both fields are required')
         setRole('')
         setMessage('Both fields are required')
-        setLoading(false)
+
         toast.error(message)
       }
     } catch (error) {
       console.log('error')
       toast.error(error)
-      setLoading(false)
     }
   }
 
   const logout = async (e) => {
     e.preventDefault()
-    setLoading(true)
+
     try {
       const result = await handleLogout()
       setUser('')
       setRole('')
       toast.success('Goodbye')
-
+      navigate('/')
       console.log(result)
-      setLoading(false)
     } catch (error) {
       toast.error(error)
 
       console.log('error')
-      setLoading(false)
     }
   }
 
@@ -97,8 +95,6 @@ const Authentication = ({ setLoading, user, setUser, role, setRole }) => {
               Login
             </button>
           </form>
-
-          <label>{message}</label>
         </div>
       )}
     </div>

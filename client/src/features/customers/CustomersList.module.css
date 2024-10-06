@@ -1,0 +1,14 @@
+.customers {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: 20%;
+}
+
+.text {
+  text-align: center;
+  margin: 1rem;
+  padding: 1rem;
+}
