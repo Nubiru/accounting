@@ -1,11 +1,10 @@
-import { Link, Outlet } from 'react-router-dom'
-import NewsList from '../../features/new/NewsList'
-import classes from './News.module.css'
-import { getNews } from '../../helpers/news/getNews'
-import { FaEnvelope } from 'react-icons/fa6'
+import { Link, Outlet } from "react-router-dom";
+import NewsList from "../../features/new/NewsList";
+import classes from "./News.module.css";
+import { getNews } from "../../helpers/news/getNews";
+import { FaEnvelope } from "react-icons/fa6";
 
 const News = () => {
-  console.log(2, 'hi')
   return (
     <>
       <Outlet />
@@ -17,13 +16,12 @@ const News = () => {
         <NewsList />
       </main>
     </>
-  )
-}
+  );
+};
 
-export default News
+export default News;
 
 export const loader = async () => {
-  const response = await getNews()
-  console.log(response)
-  return response
-}
+  const response = await getNews();
+  return response;
+};

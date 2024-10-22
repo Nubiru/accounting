@@ -5,7 +5,7 @@ import { FaHome } from 'react-icons/fa'
 import Authentication from '../../features/user/Authentication'
 import { FaAddressBook, FaCircleInfo, FaEnvelope } from 'react-icons/fa6'
 
-const Header = ({ user, role, setUser, setRole }) => {
+const Header = ({ onLogin, user, role, setUser, setRole }) => {
   return (
     <>
       <h1 className={classes.element}>HEADER </h1>
@@ -39,7 +39,11 @@ const Header = ({ user, role, setUser, setRole }) => {
           <>
             <ul className={classes.list}>
               <li className={classes.element}>
-                <Link to="files" className={classes.element}>
+                <Link
+                  to="files"
+                  className={classes.element}
+                  onClick={() => localStorage.setItem('subFolder', '')}
+                >
                   <FaEnvelope />
                   <p className={classes.label}>Files</p>
                 </Link>
@@ -60,6 +64,7 @@ const Header = ({ user, role, setUser, setRole }) => {
       <ul className={classes.list}>
         <li>
           <Authentication
+            onLogin={onLogin}
             user={user}
             role={role}
             setUser={setUser}

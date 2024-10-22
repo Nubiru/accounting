@@ -5,26 +5,33 @@ import classes from './Authentication.module.css'
 import { handleLogin } from '../../helpers/auth/handleLogin.js'
 import { handleLogout } from '../../helpers/auth/handleLogout.js'
 import { useNavigate } from 'react-router-dom'
-const Authentication = ({ user, setUser, role, setRole }) => {
-  const [pwd, setPwd] = useState('')
-  const [login, setLogin] = useState('')
+const Authentication = ({ onLogin, user, setUser, role, setRole }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
+
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
-      const result = await handleLogin(login, pwd)
-      console.log(result)
+      const result = await handleLogin(username, password)
+      console.log('***handlelogin***', result)
+
       if (result.username && result.role) {
         setUser(result.username)
         setRole(result.role)
-        setLogin('')
-        setPwd('')
-        console.log(pwd, login)
+        setUsername('')
+        setPassword('')
 
+        if (result.role === 'Admin') {
+          localStorage.setItem('customerFolder', '')
+        } else {
+          localStorage.setItem('customerFolder', result.username)
+        }
         toast.success(`Welcome ${result.username}`)
+        onLogin(result)
       } else if (result.status === 401) {
         console.log('User not found')
         setRole('')
@@ -54,6 +61,8 @@ const Authentication = ({ user, setUser, role, setRole }) => {
       toast.success('Goodbye')
       navigate('/')
       console.log(result)
+      localStorage.setItem('customerFolder', '')
+      localStorage.setItem('subFolder', '')
     } catch (error) {
       toast.error(error)
 
@@ -80,16 +89,16 @@ const Authentication = ({ user, setUser, role, setRole }) => {
               placeholder="Username"
               autoComplete="off"
               required
-              value={login}
-              onChange={(e) => setLogin(() => e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(() => e.target.value)}
             />
             <input
               type="password"
               placeholder="Password"
               autoComplete="off"
               required
-              value={pwd}
-              onChange={(e) => setPwd(() => e.target.value)}
+              value={password}
+              onChange={(e) => setPassword(() => e.target.value)}
             />
             <button className={classes.authBtn} type="submit">
               Login

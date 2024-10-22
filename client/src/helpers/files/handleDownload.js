@@ -1,21 +1,28 @@
 import axios from "axios";
 
-export const handleDownload = async (customerFolder, subFolder, fileName) => {
+export const handleDownload = async (file) => {
+  const fileName = file.split("/").pop();
   const data = {
-    filePath: `${customerFolder}/${subFolder}/${fileName}`,
+    filePath: file,
   };
   try {
     const response = await axios.post(
       "http://localhost:3500/files/download",
-      data
+      data,
+      { responseType: "blob" }
     );
-    const fileUrl = response.data.url;
+
+    const blob = new Blob([response.data], {
+      type: response.headers["content-type"],
+    });
+    const fileUrl = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = fileUrl;
     link.setAttribute("download", fileName);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    window.URL.revokeObjectURL(fileUrl);
     return fileUrl;
   } catch (error) {
     console.error("Error downloading file:", error);

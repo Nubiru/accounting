@@ -1,10 +1,10 @@
-import { useLoaderData } from 'react-router-dom'
-import classes from './NewsList.module.css'
-import New from './New.js'
+import { useLoaderData } from "react-router-dom";
+import classes from "./NewsList.module.css";
+import New from "./New.js";
 
 const NewsList = () => {
-  const news = useLoaderData()
-  console.log(1, news)
+  const data = useLoaderData();
+  const news = data.news;
   return (
     <>
       {news.length > 0 && (
@@ -25,7 +25,7 @@ const NewsList = () => {
         <p className={classes.text}>There are no news yet</p>
       )}
     </>
-  )
-}
+  );
+};
 
-export default NewsList
+export default NewsList;

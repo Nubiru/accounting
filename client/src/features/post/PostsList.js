@@ -1,10 +1,11 @@
-import { useLoaderData } from 'react-router-dom'
-import classes from './PostsList.module.css'
-import Post from './Post.js'
+import { useLoaderData } from "react-router-dom";
+import classes from "./PostsList.module.css";
+import Post from "./Post.js";
 
 const PostsList = () => {
-  const posts = useLoaderData()
+  const data = useLoaderData();
 
+  const posts = data.posts;
   return (
     <>
       {posts.length > 0 && (
@@ -25,7 +26,7 @@ const PostsList = () => {
         <p className={classes.text}>There are no posts yet</p>
       )}
     </>
-  )
-}
+  );
+};
 
-export default PostsList
+export default PostsList;

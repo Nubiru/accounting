@@ -4,7 +4,7 @@ import classes from "./Post.module.css";
 const Post = ({ id, title, content }) => {
   return (
     <li className={classes.post}>
-      <Link to={id}>
+      <Link to={`/post/${id}`}>
         <p className={classes.title}>{title}</p>
         <p className={classes.content}>{content}</p>
       </Link>

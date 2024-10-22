@@ -1,39 +1,42 @@
-import { useState } from 'react'
-import axios from 'axios'
+import { useState } from "react";
+import axios from "axios";
 import {
   useLoaderData,
   Link,
   Form,
   redirect,
-  useNavigate
-} from 'react-router-dom'
-import toast from 'react-hot-toast'
+  useNavigate,
+} from "react-router-dom";
+import toast from "react-hot-toast";
 
-import Modal from '../../components/Modal'
-import classes from './PostDetails.module.css'
-import { getPost } from '../../helpers/posts/getPosts'
-import { deletePost } from '../../helpers/posts/deletePost'
+import Modal from "../../components/Modal";
+import classes from "./PostDetails.module.css";
+import { getPost } from "../../helpers/posts/getPosts";
+import { deletePost } from "../../helpers/posts/deletePost";
 
 const PostDetails = () => {
-  const [editing, setEditing] = useState(false)
-  const post = useLoaderData()
-  const navigate = useNavigate()
+  const [editing, setEditing] = useState(false);
+  const post = useLoaderData();
+  const navigate = useNavigate();
 
-  const { title, content } = post
-  const id = post._id
+  const { title, content } = post;
+  const id = post._id;
 
   const deleteHandler = async () => {
     try {
-      const result = await deletePost(id)
+      const result = await deletePost(id);
 
       if (result.status === 201) {
-        toast.success('Post deleted')
+        toast.success("Post deleted");
       }
     } catch (error) {
-      toast.error(error)
+      toast.error(error);
     }
-    navigate('/')
-  }
+    navigate("/");
+  };
+  const closeHandler = async () => {
+    navigate("/");
+  };
 
   if (!post) {
     return (
@@ -51,7 +54,7 @@ const PostDetails = () => {
           </p>
         </main>
       </Modal>
-    )
+    );
   }
   return (
     <>
@@ -85,7 +88,7 @@ const PostDetails = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setEditing(false)
+                  setEditing(false);
                 }}
               >
                 Cancel
@@ -109,43 +112,46 @@ const PostDetails = () => {
             </Link>
             <button
               onClick={() => {
-                setEditing(true)
+                setEditing(true);
               }}
             >
               Edit Post
             </button>
+            <Link to="/" className={classes.btn}>
+              <button onClick={closeHandler}>Close</button>
+            </Link>
           </div>
         </Modal>
       )}
     </>
-  )
-}
+  );
+};
 
-export default PostDetails
+export default PostDetails;
 
 export const loader = async ({ params }) => {
-  const post = await getPost(params.id)
-  return post
-}
+  const post = await getPost(params.id);
+  return post;
+};
 
 export const action = async ({ request, params }) => {
-  const formData = await request.formData()
+  const formData = await request.formData();
 
   // const title = formData.get("title");
   // const content = formData.get("content");
 
-  const id = params.id
+  const id = params.id;
 
-  const postData = Object.fromEntries(formData)
+  const postData = Object.fromEntries(formData);
 
   try {
     await axios.patch(`http://localhost:3500/posts/edit/${id}`, {
       newTitle: postData.title,
-      newContent: postData.content
-    })
+      newContent: postData.content,
+    });
   } catch (error) {
-    console.log(Error)
+    console.log(Error);
   }
 
-  return redirect('/')
-}
+  return redirect("/");
+};
