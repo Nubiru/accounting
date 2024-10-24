@@ -4,24 +4,27 @@ const SessionContext = createContext()
 
 export const useSession = () => useContext(SessionContext)
 
+//this gets session values
 export const SessionProvider = ({ children }) => {
-  const [iseLoggedIn, setIsLoggedIn] = useState(false)
-  const [user, setUser] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userInformation, setUserInformation] = useState(null)
 
   const login = (userData) => {
     setIsLoggedIn(true)
-    setUser(userData)
+    setUserInformation(userData)
   }
 
   const logout = (data) => {
     if (data) {
       setIsLoggedIn(false)
-      setUser(null)
+      setUserInformation(null)
     }
   }
 
   return (
-    <SessionContext.Provider value={{ iseLoggedIn, user, login, logout }}>
+    <SessionContext.Provider
+      value={{ isLoggedIn, userInformation, login, logout }}
+    >
       {children}
     </SessionContext.Provider>
   )

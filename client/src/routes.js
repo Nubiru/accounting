@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import Error from './pages/Error'
 import ProtectedRoute from './components/ProtectedRoute'
 
-import RootLayout, { loader as stateLoader } from './routes/RootLayout'
+import RootLayout from './routes/RootLayout'
 import Dashboard from './routes/Dashboard'
 
 import Posts, { loader as postsLoader } from './routes/post/Posts'
@@ -34,7 +34,6 @@ import Files, { loader as userFilesLoader } from './routes/file/Files'
 import FileUpload, {
   action as fileUploadAction
 } from './routes/file/FileUpload'
-import RegisterLoginForm from './components/RegisterLoginForm'
 
 const combinedLoader = async () => {
   const [posts, news] = await Promise.all([postsLoader(), newsLoader()])
@@ -64,74 +63,77 @@ const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      { element: <RootLayout /> },
       {
-        element: <Dashboard />,
+        path: '/',
+        element: <RootLayout />,
+        errorElement: <Error />,
         children: [
           {
-            path: '/dashboard',
-            element: [<News key={1} />, <Posts key={2} />],
-            loader: combinedLoader,
+            element: <Dashboard />,
             children: [
               {
-                path: '/dashboard/create-post',
-                element: <CreatePost />,
-                action: createPostAction
-              },
-
-              {
-                path: '/dashboard/post/:id',
-                element: <PostDetails />,
-                action: editPostAction,
-                loader: postLoader
-              },
-              {
-                path: '/dashboard/create-new',
-                element: <CreateNew />,
-                action: createNewAction
-              },
-              {
-                path: '/dashboard/new/:id',
-                element: <NewDetails />,
-                action: editNewAction,
-                loader: newLoader
-              },
-              {
-                path: '/dashboard/customers',
-                element: <Customers />,
-                loader: customersLoader,
+                path: '/dashboard',
+                element: [<News key={1} />, <Posts key={2} />],
+                loader: combinedLoader,
                 children: [
                   {
-                    path: '/dashboard/customers/create-user',
-                    element: <CreateUser />,
-                    action: createUserAction
+                    path: '/dashboard/create-post',
+                    element: <CreatePost />,
+                    action: createPostAction
+                  },
+
+                  {
+                    path: '/dashboard/post/:id',
+                    element: <PostDetails />,
+                    action: editPostAction,
+                    loader: postLoader
                   },
                   {
-                    path: 'dashboard/customers/:id',
-                    element: <CustomerDetails />,
-                    action: editUserAction,
-                    loader: userLoader
-                  }
-                ]
-              },
-              {
-                path: '/dashboard/files',
-                element: <Files />,
-                loader: async () => {
-                  const [files, state] = await Promise.all([
-                    userFilesLoader(),
-                    stateLoader()
-                  ])
-                  return { files, state }
-                },
-                // loader: userFilesLoader,
-                // stateLoader,
-                // loader: stateLoader,
-                children: [
+                    path: '/dashboard/create-new',
+                    element: <CreateNew />,
+                    action: createNewAction
+                  },
                   {
-                    path: '/dashboard/files/upload',
-                    element: <FileUpload />,
-                    action: fileUploadAction
+                    path: '/dashboard/new/:id',
+                    element: <NewDetails />,
+                    action: editNewAction,
+                    loader: newLoader
+                  },
+                  {
+                    path: '/dashboard/customers',
+                    element: <Customers />,
+                    loader: customersLoader,
+                    children: [
+                      {
+                        path: '/dashboard/customers/create-user',
+                        element: <CreateUser />,
+                        action: createUserAction
+                      },
+                      {
+                        path: 'dashboard/customers/:id',
+                        element: <CustomerDetails />,
+                        action: editUserAction,
+                        loader: userLoader
+                      }
+                    ]
+                  },
+                  {
+                    path: '/dashboard/files',
+                    element: <Files />,
+                    loader: async () => {
+                      const files = await Promise.all([userFilesLoader()])
+                      return { files }
+                    },
+                    // loader: userFilesLoader,
+                    // stateLoader,
+                    // loader: stateLoader,
+                    children: [
+                      {
+                        path: '/dashboard/files/upload',
+                        element: <FileUpload />,
+                        action: fileUploadAction
+                      }
+                    ]
                   }
                 ]
               }

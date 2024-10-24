@@ -1,32 +1,33 @@
-import axios from "axios";
-import classes from "./Files.module.css";
-import FileList from "../../features/file/FileList";
-import BackArrow from "../../components/BackArrow";
-import { useEffect, useState } from "react";
-import { getList } from "../../helpers/files/getList";
-import { Link, useLoaderData, Outlet } from "react-router-dom";
+import axios from 'axios'
+import classes from './Files.module.css'
+import FileList from '../../features/file/FileList'
+import { useEffect, useState } from 'react'
+
+import { Link, Outlet } from 'react-router-dom'
+import { useSession } from '../../context/SessionContext'
 
 const Files = () => {
-  const data = useLoaderData();
-  console.log(data);
+  const { isLoggedIn, userInformation } = useSession()
+
+  console.log(userInformation, isLoggedIn)
 
   const [folderPath, setFolderPath] = useState({
-    customerFolder: localStorage.getItem("customerFolder"),
-    subFolder: localStorage.getItem("subFolder"),
-  });
+    customerFolder: localStorage.getItem('customerFolder'),
+    subFolder: localStorage.getItem('subFolder')
+  })
 
-  const folderPathHandler = (customerFolder, subFolder = "") => {
-    setFolderPath({ customerFolder: customerFolder, subFolder: subFolder });
-    localStorage.setItem("customerFolder", customerFolder);
-    localStorage.setItem("subFolder", subFolder);
-  };
+  const folderPathHandler = (customerFolder, subFolder = '') => {
+    setFolderPath({ customerFolder: customerFolder, subFolder: subFolder })
+    localStorage.setItem('customerFolder', customerFolder)
+    localStorage.setItem('subFolder', subFolder)
+  }
 
   useEffect(() => {
     folderPathHandler(
-      localStorage.getItem("customerFolder"),
-      localStorage.getItem("subFolder")
-    );
-  }, [data]);
+      localStorage.getItem('customerFolder'),
+      localStorage.getItem('subFolder')
+    )
+  }, [userInformation])
 
   return (
     <>
@@ -40,7 +41,7 @@ const Files = () => {
             {folderPath.customerFolder ? (
               <span className={classes.span}> {folderPath.customerFolder}</span>
             ) : (
-              data.state.user
+              userInformation?.username
             )}
             {folderPath.subFolder && (
               <span className={classes.span}> / {folderPath.subFolder}</span>
@@ -57,27 +58,27 @@ const Files = () => {
         />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Files;
+export default Files
 
 export const loader = async () => {
   const data = {
-    customerFolder: localStorage.getItem("customerFolder"),
-    subFolder: localStorage.getItem("subFolder"),
-  };
+    customerFolder: localStorage.getItem('customerFolder'),
+    subFolder: localStorage.getItem('subFolder')
+  }
 
   try {
     const response = await axios.post(
-      "http://localhost:3500/files/getlist",
+      'http://localhost:3500/files/getlist',
       data
-    );
-    return response.data.result;
+    )
+    return response.data.result
   } catch (error) {
-    console.error("Error uploading file:", error);
+    console.error('Error uploading file:', error)
   }
-};
+}
 
 // export const loader = async () => {
 //   const filesData = localStorage.getItem("filesData");
