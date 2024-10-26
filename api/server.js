@@ -59,12 +59,12 @@ app.get('/', (req, res) => {
 //TODO:NEW
 app.use('/api/auth', authRoutes)
 
-app.use('/users/register', registerRoute)
 app.use('/users/login', loginRoute)
-app.use('/users/logout', logoutRoute)
 app.use('/users/refresh', refreshRoute)
 
 // app.use(jwtVerification);
+app.use('/users/logout', logoutRoute)
+app.use('/users/register', registerRoute)
 app.use('/files/upload', uploadRoute)
 app.use('/files/getlist', getListRoute)
 app.use('/files/remove', removeRoute)

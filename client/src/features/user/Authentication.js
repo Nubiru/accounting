@@ -6,6 +6,7 @@ import { handleLogin } from '../../helpers/auth/handleLogin.js'
 import { handleLogout } from '../../helpers/auth/handleLogout.js'
 import { useNavigate } from 'react-router-dom'
 import { useSession } from '../../context/SessionContext.js'
+
 const Authentication = ({ onLogin, onLogout }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')

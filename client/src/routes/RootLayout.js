@@ -15,6 +15,7 @@ const RootLayout = () => {
     login(userData)
 
     if (userData.role.includes('Admin')) {
+      //TODO:/dashboard/admin ?
       navigate('/dashboard')
     } else {
       navigate('/dashboard')
